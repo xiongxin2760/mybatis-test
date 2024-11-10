@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.BotInfoMapper">
+    <resultMap id="botInfoResultMap" type="BotInfo">
+        <result column="app_id" property="appId"/>
+        <result column="collection_sequence" property="collectionSequence"/>
+        <result column="bot_id" property="botId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="botInfoById" resultMap="botInfoResultMap">
+        select * from bot_info where id
+            <![CDATA[
+               =
+            ]]>
+        #{id} limit 1
+    </select>
+    <select id="selectByCondition" resultMap="botInfoResultMap">
+        select * from bot_info
+        <where>
+            <if test="appId != null and appId != ''">
+                app_id = #{appId}
+            </if>
+            <if test="botId != null">
+                and bot_id = #{botId}
+            </if>
+        </where>
+    </select>
+    <select id="selectByConditionSingle" resultMap="botInfoResultMap">
+        select * from bot_info
+        <where>
+            <choose>
+                <when test="appId != null and appId != ''">
+                    app_id = #{appId}
+                </when>
+                <when test="botId != null">
+                    bot_id = #{botId}
+                </when>
+            </choose>
+        </where>
+    </select>
+
+</mapper>
